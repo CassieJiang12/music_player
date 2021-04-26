@@ -21,7 +21,7 @@ const songs = [
         name: 'jacinto-2',
         displayName: 'Seven Nation Army (Remix)',
         artist: 'Jacinto Design',
-    },    
+    },
     {
         name: 'jacinto-3',
         displayName: 'Goodnight, Disco Queen',
@@ -72,7 +72,7 @@ function loadSong(song) {
 let songIndex = 0;
 
 //Next Song
-function prevSong(){
+function prevSong() {
     songIndex = (songIndex - 1 + songs.length) % songs.length;
     console.log(songIndex);
     loadSong(songs[songIndex]);
@@ -80,7 +80,7 @@ function prevSong(){
 }
 
 //Previous Song
-function nextSong(){
+function nextSong() {
     songIndex = (songIndex + 1) % songs.length;
     console.log(songIndex);
     loadSong(songs[songIndex]);
@@ -91,20 +91,20 @@ function nextSong(){
 loadSong(songs[songIndex]);
 
 //Update Prgoress Bar & Time
-function updateProgressBar(e){
-    if(isPlaying){
-        const {duration, currentTime} = e.srcElement;
+function updateProgressBar(e) {
+    if (isPlaying) {
+        const { duration, currentTime } = e.srcElement;
         progress.style.width = `${(currentTime / duration) * 100}%`;
         const durationMinutes = Math.floor(duration / 60);
         let durationSeconds = Math.floor(duration % 60);
-        if(durationSeconds < 10)    
+        if (durationSeconds < 10)
             durationSeconds = `0${durationSeconds}`
-        if(durationSeconds){
+        if (durationSeconds) {
             durationEl.textContent = `${durationMinutes}:${durationSeconds}`;
         }
         let currentMinutes = Math.floor(currentTime / 60);
         let currentSeconds = Math.floor(currentTime % 60);
-        if(currentSeconds < 10)
+        if (currentSeconds < 10)
             currentSeconds = `0${currentSeconds}`;
         currentTimeEl.textContent = `${currentMinutes}:${currentSeconds}`;
     }
@@ -112,13 +112,13 @@ function updateProgressBar(e){
 }
 
 //Set Progress Bar
-function setProgressBar(e){
+function setProgressBar(e) {
     const width = this.clientWidth;
     const clickX = e.offsetX;
     const percentage = clickX / width;
-    const {duration} = music;
+    const { duration } = music;
     music.currentTime = (clickX / width) * duration;
-    
+
 }
 
 prevBtn.addEventListener('click', prevSong);
