@@ -38,40 +38,7 @@ const query = {
     rowMode: 'array'
 }
 
-// pool.connect()
-//     .then(client => {
-//         return client.query('SELECT * FROM users')
-//             .then(res => {
-//                 client.release();
-//                 console.log(res.rows[0]);
-//             })
-//             .catch(e => {
-//                 client.release();
-//                 console.log(e.stack);
-//             })
-//     }).finally(() => pool.end());
 
-
-
-// app.post('/auth', function (request, response) {
-//     var username = request.body.username;
-//     var password = request.body.password;
-//     if (username && password) {
-//         connection.query('SELECT * FROM users WHERE name = ? AND password = ?', [username, password], function (error, results, fields) {
-//             if (results.length > 0) {
-//                 request.session.loggedin = true;
-//                 request.session.username = username;
-//                 response.redirect('/home');
-//             } else {
-//                 response.send('Incorrect Username and/or Password!');
-//             }
-//             response.end();
-//         });
-//     } else {
-//         response.send('Please enter Username and Password!');
-//         response.end();
-//     }
-// });
 app.post('/auth', getUserByName = (request, response) => {
     var username = request.body.username;
     var password = request.body.password;
