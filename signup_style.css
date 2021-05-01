@@ -1,0 +1,40 @@
+/* Images created by: https://unsplash.com/@pawel_czerwinski */
+
+@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@400;700&display=swap');
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #c9ced3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Spartan, sans-serif;
+  font-size: 12px;
+}
+
+.signup{
+  height: 500px;
+  width: 400px;
+  background-color: #d3d3d3;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px 5px rgba(0, 0, 0, 0.3);
+}
+
+.signup-btn{
+    padding-top: 30px;
+}
+
+
+/* Media Query: iPhone (Vertical) */
+@media screen and (max-width: 376px) {
+
+  .signup{
+    width: 95vw;
+  }
+  
+}

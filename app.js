@@ -1,12 +1,103 @@
+const express = require('express');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const path = require('path');
+const pg = require('pg');
+const R = require('ramda');
 
-const knex = require('knex')({
-    client: 'pg',
-    connection: {
-        host: '127.0.0.1',
-        user: 'postgres',
-        password: 'root',
-        database: 'sign-in-accounts'
-    }
+var app = express();
+app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'music')));
+app.use(express.static(path.join(__dirname, 'img')));
+
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.get('/', function (request, response) {
+    response.sendFile(path.join(__dirname + '/index.html'));
 });
 
-console.log(knex.select('*').from('users'));
+var config = {
+    host: 'localhost',
+    user: 'postgres',
+    password: 'root',
+    database: 'sign-in-accounts'
+}
+
+const pool = new pg.Pool(config);
+
+pool.connect();
+
+const query = {
+    text: "SELECT * FROM users",
+    rowMode: 'array'
+}
+
+// pool.connect()
+//     .then(client => {
+//         return client.query('SELECT * FROM users')
+//             .then(res => {
+//                 client.release();
+//                 console.log(res.rows[0]);
+//             })
+//             .catch(e => {
+//                 client.release();
+//                 console.log(e.stack);
+//             })
+//     }).finally(() => pool.end());
+
+
+
+// app.post('/auth', function (request, response) {
+//     var username = request.body.username;
+//     var password = request.body.password;
+//     if (username && password) {
+//         connection.query('SELECT * FROM users WHERE name = ? AND password = ?', [username, password], function (error, results, fields) {
+//             if (results.length > 0) {
+//                 request.session.loggedin = true;
+//                 request.session.username = username;
+//                 response.redirect('/home');
+//             } else {
+//                 response.send('Incorrect Username and/or Password!');
+//             }
+//             response.end();
+//         });
+//     } else {
+//         response.send('Please enter Username and Password!');
+//         response.end();
+//     }
+// });
+app.post('/auth', getUserByName = (request, response) => {
+    var username = request.body.username;
+    var password = request.body.password;
+
+    pool.query('SELECT * FROM users WHERE name = $1', [username], (error, results) => {
+        if (error) {
+            response.send('Incorrect Username or Password');
+            throw error
+        }
+        try {
+            if (results.rows[0].password == password) {
+                request.session.loggedin = true;
+                request.session.username = username;
+                response.send('success');
+
+                //response.redirect();
+            } else {
+                response.send('Incorrect Password!');
+            }
+        } catch (e) {
+            response.send('Incorrect Username');
+        }
+
+
+        response.end();
+    })
+});
+app.listen(3000);
+
