@@ -33,12 +33,6 @@ const pool = new pg.Pool(config);
 
 pool.connect();
 
-const query = {
-    text: "SELECT * FROM users",
-    rowMode: 'array'
-}
-
-
 app.post('/auth', getUserByName = (request, response) => {
     var username = request.body.username;
     var password = request.body.password;
@@ -61,8 +55,6 @@ app.post('/auth', getUserByName = (request, response) => {
         } catch (e) {
             response.send('Incorrect Username');
         }
-
-
         response.end();
     })
 });
